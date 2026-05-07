@@ -1,0 +1,83 @@
+[build-system]
+requires = ["hatchling>=1.21.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "brain"
+version = "0.1.0"
+description = "Local RAG over notes, PDFs, screenshots, and Apple Mail with Ollama and Chroma."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+keywords = ["rag", "ollama", "chroma", "langchain", "local-llm", "apple-mail"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "typer>=0.12.0",
+    "rich>=13.7.0",
+    "langchain>=0.3.0",
+    "langchain-core>=0.3.0",
+    "langchain-text-splitters>=0.3.0",
+    "langchain-community>=0.3.0",
+    "langchain-chroma>=0.1.0",
+    "langchain-huggingface>=0.1.0",
+    "langchain-ollama>=0.2.0",
+    "chromadb>=0.5.0",
+    "sentence-transformers>=3.0.0",
+    "pypdf>=5.0.0",
+    "pillow>=10.0.0",
+    "pillow-heif>=0.21.0",
+    "pytesseract>=0.3.10",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pyright[nodejs]>=1.1.350",
+    "ruff>=0.8.0",
+]
+
+[project.scripts]
+brain = "brain.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["brain"]
+
+[tool.hatch.build.targets.sdist]
+include = ["brain", "tests", "README.md"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["brain", "tests"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"brain/cli.py" = ["B008"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.pyright]
+include = ["brain", "tests"]
+exclude = [".venv"]
+pythonVersion = "3.11"
+typeCheckingMode = "standard"
+venvPath = "."
+venv = ".venv"
